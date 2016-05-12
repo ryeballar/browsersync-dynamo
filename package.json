@@ -5,7 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "browser-sync": "^2.12.7",
-    "httpolyglot": "^0.1.1"
+    "httpolyglot": "^0.1.1",
+    "require-dir": "^0.3.0"
   },
   "devDependencies": {},
   "scripts": {
