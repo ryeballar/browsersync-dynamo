@@ -10,13 +10,6 @@ module.exports = function(bs) {
 			options.set('https', proxy.get('target').indexOf('https') === 0);
 		}
 
-		if(options.get('httpolyglot')) {
-			return {
-				server: httpolyglot.createServer(bsUtil.getKeyAndCert(options), app),
-				app
-			};
-		}
-
 		return bsUtilGetServer.call(bsUtil, app, options);
 
 	};
