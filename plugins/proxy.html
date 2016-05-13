@@ -1,0 +1,66 @@
+<style>
+#<%- id %> {
+	position: fixed;
+	top: 50px;
+	right: 0;
+	height: 600px;
+	width: 250px;
+	background-color: black;
+	padding: 1em;
+	display: none;
+	opacity: 0.75;
+	border-top-left-radius: 1em;
+	border-bottom-left-radius: 1em;
+}
+
+</style>
+
+<div id="<%- id %>">
+
+	<% _.forEach(proxies, function(proxy) { %>
+
+	<div><strong><a href="<%- proxy %>" style="color: #4169E1"><%- proxy %></a></strong></div>
+
+	<% }); %>
+</div>
+
+<script>
+
+(function(div) {
+
+	var isVisible = false;
+
+	window.addEventListener('keydown', function(e) {
+
+		if(e.ctrlKey && e.keyCode === 222) { // ctrl + '
+			div.setAttribute('style', 'display: ' + (isVisible? 'none': 'block'));
+			isVisible = !isVisible;
+		}
+
+	});
+
+	var anchors = Array.prototype.slice.call(document.querySelectorAll('#<%- id %> a'));
+
+	anchors.forEach(function(anchor) {
+
+		anchor.addEventListener('click', function(e) {
+
+			var xhttp = new XMLHttpRequest();
+			xhttp.open('GET', '/<%- id %>/?proxy=' + encodeURIComponent(anchor.href), true);
+			xhttp.send();
+
+			setTimeout(function() {
+				location.reload();
+			}, 2000);
+
+			e.preventDefault();
+
+		});
+
+	});
+
+})(
+	document.getElementById('<%- id %>')
+);
+
+</script>
