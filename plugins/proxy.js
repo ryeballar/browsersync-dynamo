@@ -16,7 +16,7 @@ module.exports = function(bs) {
 		var reload = function() {
 			setTimeout(function() {
 				instance.reload();
-			}, 2000);
+			}, 3000);
 		};
 
 		instance.init = function(config) {
@@ -60,7 +60,13 @@ module.exports = function(bs) {
 							return snippet +
 								compiled({
 									proxies: proxies,
-									id: id
+									id: id,
+									event: _.assign({
+										name: 'keydown',
+										trigger: function(e) {
+											return e.ctrlKey && e.keyCode === 222;
+										}
+									}, config.dynamicproxy.event)
 								}) +
 								match;
 						}

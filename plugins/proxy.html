@@ -30,10 +30,11 @@
 (function(div) {
 
 	var isVisible = false;
+	var isTriggered = <%= event.trigger.toString() %>;
 
-	window.addEventListener('keydown', function(e) {
+	window.addEventListener('<%- event.name %>', function(e) {
 
-		if(e.ctrlKey && e.keyCode === 222) { // ctrl + '
+		if(isTriggered(e)) {
 			div.setAttribute('style', 'display: ' + (isVisible? 'none': 'block'));
 			isVisible = !isVisible;
 		}
