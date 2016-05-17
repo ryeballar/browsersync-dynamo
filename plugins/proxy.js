@@ -37,6 +37,10 @@ module.exports = function(bs) {
 
 						url = decodeURIComponent(req.url.split('=').pop());
 						config.proxy.target = url;
+						(config.dynamicproxy.onChange || _.noop)({
+							instance: instance,
+							config: config
+						});
 						instance.exit();
 						instance.init(config);
 
