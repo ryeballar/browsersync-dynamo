@@ -1,5 +1,6 @@
 var httpolyglot = require('httpolyglot');
 var bsUtil = require('browser-sync/lib/server/utils');
+var connectUtils = require('browser-sync/lib/connect-utils');
 
 module.exports = function(bs) {
 
@@ -15,6 +16,17 @@ module.exports = function(bs) {
 
 		return bsUtilGetServer.call(bsUtil, app, options);
 
+	};
+
+	var getConnectionUrl = connectUtils.getConnectionUrl;
+	connectUtils.getConnectionUrl = function(options) {
+		var result = getConnectionUrl.call(this, options);
+
+		if(options.get('httpolyglot')) {
+			result = result.replace(/https/g, 'http');
+		}
+
+		return result;
 	};
 
 };
