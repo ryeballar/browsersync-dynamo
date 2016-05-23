@@ -1,47 +1,78 @@
 <style>
+
+#<%- id %> a {
+	color: white;
+	font-size: 16px !important;
+}
+
 #<%- id %> {
 	position: fixed;
 	top: 50px;
-	right: 0;
+	left: 50%;
 	height: 600px;
-	width: 250px;
+	width: 320px;
+	margin-left: -160px;
 	background-color: black;
 	padding: 1em;
 	display: none;
-	opacity: 0.75;
-	border-top-left-radius: 1em;
-	border-bottom-left-radius: 1em;
+	border-radius: 1em;
 	z-index: 999999;
+}
+
+#<%- id %>-input {
+	width: 100%;
 }
 
 </style>
 
 <div id="<%- id %>">
 
-	<% _.forEach(proxies, function(proxy) { %>
+	<input type="text" id="<%- id %>-input" />
 
-	<div><strong><a href="<%- proxy %>" style="color: #4169E1"><%- proxy %></a></strong></div>
+	<div id="<%- id %>-proxies"></div>
+
+	<% _.forEach(proxies, function(proxy, index) { %>
+
+	<a href="<%- proxy %>"><%- proxy %></a>
 
 	<% }); %>
 </div>
 
 <script>
 
-(function(div) {
+(function(div, input) {
 
 	var isVisible = false;
 	var isTriggered = <%= event.trigger.toString() %>;
+	var proxies = <%= JSON.stringify(proxies) %>;
+	var anchors = Array.prototype.slice.call(document.querySelectorAll('#<%- id %> a'));
 
 	window.addEventListener('<%- event.name %>', function(e) {
 
 		if(isTriggered(e)) {
+
 			div.setAttribute('style', 'display: ' + (isVisible? 'none': 'block'));
 			isVisible = !isVisible;
+
+			if(isVisible) {
+				input.focus();
+			}
+
 		}
 
 	});
 
-	var anchors = Array.prototype.slice.call(document.querySelectorAll('#<%- id %> a'));
+	window.addEventListener('click', function(e) {
+		input.value = '';
+		anchors.forEach(function(anchor) {
+			anchor.style.display = 'block';
+		});
+		div.style.display = 'none';
+	});
+
+	div.addEventListener('click', function(e) {
+		e.stopPropagation();
+	});
 
 	anchors.forEach(function(anchor) {
 
@@ -61,8 +92,16 @@
 
 	});
 
+	input.addEventListener('keyup', function() {
+		anchors.forEach(function(anchor) {
+			var isHidden = anchor.href.indexOf(input.value) < 0;
+			anchor.style.display = isHidden? 'none': 'block';
+		});
+	});
+
 })(
-	document.getElementById('<%- id %>')
+	document.getElementById('<%- id %>'),
+	document.getElementById('<%- id %>-input')
 );
 
 </script>
