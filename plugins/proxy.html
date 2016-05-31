@@ -1,6 +1,6 @@
 <style>
 
-#<%- id %> a {
+#<%- id %> a, #<%- id %>-target {
 	color: white;
 	font-size: 16px !important;
 }
@@ -17,6 +17,8 @@
 	display: none;
 	border-radius: 1em;
 	z-index: 999999;
+	overflow-y: scroll;
+	text-align: left;
 }
 
 #<%- id %>-input {
@@ -26,6 +28,8 @@
 </style>
 
 <div id="<%- id %>">
+
+	<div><strong id="<%- id %>-target"><%- target %></strong></div>
 
 	<input type="text" id="<%- id %>-input" />
 
@@ -40,12 +44,14 @@
 
 <script>
 
-(function(div, input) {
+(function(div, input, target) {
 
 	var isVisible = false;
 	var isTriggered = <%= event.trigger.toString() %>;
 	var proxies = <%= JSON.stringify(proxies) %>;
 	var anchors = Array.prototype.slice.call(document.querySelectorAll('#<%- id %> a'));
+
+	target.innerHTML = target.innerHTML.replace(/\s\.\s/g, '.');
 
 	window.addEventListener('<%- event.name %>', function(e) {
 
@@ -101,7 +107,8 @@
 
 })(
 	document.getElementById('<%- id %>'),
-	document.getElementById('<%- id %>-input')
+	document.getElementById('<%- id %>-input'),
+	document.getElementById('<%- id %>-target')
 );
 
 </script>

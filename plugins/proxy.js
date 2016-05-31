@@ -64,6 +64,7 @@ module.exports = function(bs) {
 							return snippet +
 								compiled({
 									proxies: proxies,
+									target: config.proxy.target.replace(/\./g, ' . '),
 									id: id,
 									event: _.assign({
 										name: 'keydown',
