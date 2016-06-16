@@ -18,15 +18,15 @@ module.exports = function(bs) {
 
 	};
 
-	var getConnectionUrl = connectUtils.getConnectionUrl;
-	connectUtils.getConnectionUrl = function(options) {
-		var result = getConnectionUrl.call(this, options);
-
-		if(options.get('httpolyglot')) {
-			result = result.replace(/https/g, 'http');
-		}
-
-		return result;
-	};
+	// var getConnectionUrl = connectUtils.getConnectionUrl;
+	// connectUtils.getConnectionUrl = function(options) {
+	// 	var result = getConnectionUrl.call(this, options);
+    //
+	// 	if(options.get('httpolyglot')) {
+	// 		result = result.replace(/https/g, 'http');
+	// 	}
+    //
+	// 	return result;
+	// };
 
 };
